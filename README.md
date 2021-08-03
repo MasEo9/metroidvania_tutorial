@@ -1,2 +1,2 @@
 # metroidvania_tutorial
-# 8 bit metroidvania tutorial github
+8 bit metroidvania tutorial github
