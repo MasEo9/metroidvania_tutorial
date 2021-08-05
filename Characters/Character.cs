@@ -13,7 +13,15 @@ public abstract class Character : MonoBehaviour
 
     protected bool facingRight = true;
 
-    //[Header("Jump Variables")]
+    [Header("Jump Details")]
+    [SerializeField] protected float jumpForce;
+    [SerializeField] protected float jumpTime;
+    [SerializeField] protected Transform groundCheck;
+    [SerializeField] protected float radOCircle;
+    [SerializeField] protected LayerMask whatIsGround;
+    [SerializeField] protected bool grounded;
+    protected float jumpTimeCounter;
+    protected bool stoppedJumping;
 
     //[Header("Attack Variables")]
 
@@ -26,16 +34,21 @@ public abstract class Character : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        jumpTimeCounter = jumpTime;
     }
     public virtual void Update()
     {
-        // handle input
-        // handle jumping
+        grounded = Physics2D.OverlapCircle(groundCheck.position, radOCircle, whatIsGround);
+        if(rb.velocity.y < 0)
+        {
+            myAnimator.SetBool("falling", true); 
+        }
     }
     public virtual void FixedUpdate()
     {
         // handle mech/physics 
         HandleMovement();
+        HandleLayers();
     }
     #endregion
 
@@ -44,9 +57,14 @@ public abstract class Character : MonoBehaviour
     {
         rb.velocity = new Vector2(direction * speed, rb.velocity.y);
     }
+    protected void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
     #endregion
 
     #region subMechanics
+    protected abstract void HandleJumping();
     protected virtual void HandleMovement()
     {
         Move();
@@ -59,7 +77,23 @@ public abstract class Character : MonoBehaviour
             transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         }
     }
+    protected void HandleLayers()
+    {
+        if(!grounded)
+        {
+            myAnimator.SetLayerWeight(1, 1);
+        }
+        else
+        { 
+            myAnimator.SetLayerWeight(1, 0); 
+        }
+    }
     #endregion
 
-
+    #region visdebugs
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(groundCheck.position, radOCircle);
+    }
+    #endregion
 }

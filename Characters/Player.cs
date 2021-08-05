@@ -15,11 +15,45 @@ public class Player : Character
     {
         base.Update();
         direction = Input.GetAxisRaw("Horizontal");
+        HandleJumping();
     }
     protected override void HandleMovement()
     {
         base.HandleMovement();
         myAnimator.SetFloat("speed", Mathf.Abs(direction));
         TurnAround(direction);
+    }
+
+    protected override void HandleJumping()
+    {
+        if (grounded)
+        {
+            jumpTimeCounter = jumpTime;
+            myAnimator.SetTrigger("jump");
+            myAnimator.SetBool("falling", false);
+        }
+
+        if (Input.GetButtonDown("Jump") && grounded)
+        {
+            Jump();
+            stoppedJumping = false;
+            myAnimator.SetTrigger("jump");
+        }
+
+        if(Input.GetButton("Jump") && !stoppedJumping && jumpTimeCounter > 0)
+        {
+
+            Jump();
+            jumpTimeCounter -= Time.deltaTime;
+            myAnimator.SetTrigger("jump");
+        }
+
+        if(Input.GetButtonUp("Jump"))
+        {
+            jumpTimeCounter = 0;
+            stoppedJumping = true;
+            myAnimator.SetBool("falling", true);
+            myAnimator.SetTrigger("jump");
+        }
     }
 }
