@@ -20,6 +20,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected float radOCircle;
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected bool grounded;
+    [SerializeField] protected float teleDistance;
     protected float jumpTimeCounter;
     protected bool stoppedJumping;
 
@@ -61,10 +62,15 @@ public abstract class Character : MonoBehaviour
     {
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
+    protected void Teleport()
+    {
+        rb.transform.position = new Vector2(rb.transform.position.x + teleDistance * direction, rb.transform.position.y);
+    }
     #endregion
 
     #region subMechanics
     protected abstract void HandleJumping();
+    protected abstract void HandleTeleport();
     protected virtual void HandleMovement()
     {
         Move();

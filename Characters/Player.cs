@@ -6,6 +6,9 @@ public class Player : Character
 {
     private float runSpeed = 2.0f;
     private float walkSpeed = 1.0f;
+
+
+
     public override void Start()
     {
         base.Start();
@@ -15,7 +18,9 @@ public class Player : Character
     {
         base.Update();
         direction = Input.GetAxisRaw("Horizontal");
+        //Debug.Log(direction);
         HandleJumping();
+        HandleTeleport();
     }
     protected override void HandleMovement()
     {
@@ -54,6 +59,13 @@ public class Player : Character
             stoppedJumping = true;
             myAnimator.SetBool("falling", true);
             myAnimator.SetTrigger("jump");
+        }
+    }
+    protected override void HandleTeleport()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Teleport();
         }
     }
 }
