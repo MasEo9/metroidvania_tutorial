@@ -64,6 +64,7 @@ public abstract class Character : MonoBehaviour
     }
     protected void Teleport()
     {
+        //add teleport logic to standstill due to horiztontal movement being zero, facing flag would be superior?
         rb.transform.position = new Vector2(rb.transform.position.x + teleDistance * direction, rb.transform.position.y);
     }
     #endregion

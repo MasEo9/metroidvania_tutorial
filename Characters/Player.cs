@@ -65,6 +65,7 @@ public class Player : Character
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            teleDistance = 2.0f;
             Teleport();
         }
     }
