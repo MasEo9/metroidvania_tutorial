@@ -12,6 +12,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected float direction;
 
     protected bool facingRight = true;
+    protected bool noMovement = true;
 
     [Header("Jump Details")]
     [SerializeField] protected float jumpForce;
@@ -23,6 +24,8 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected float teleDistance;
     protected float jumpTimeCounter;
     protected bool stoppedJumping;
+    protected float maxTeleDistance;
+    protected bool stoppedTele;
 
     //[Header("Attack Variables")]
 
@@ -36,6 +39,7 @@ public abstract class Character : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         jumpTimeCounter = jumpTime;
+        maxTeleDistance = teleDistance;
     }
     public virtual void Update()
     {
@@ -64,8 +68,7 @@ public abstract class Character : MonoBehaviour
     }
     protected void Teleport()
     {
-        //add teleport logic to standstill due to horiztontal movement being zero, facing flag would be superior?
-        rb.transform.position = new Vector2(rb.transform.position.x + teleDistance * direction, rb.transform.position.y);
+        rb.transform.position = new Vector2(rb.transform.position.x + teleDistance * rb.transform.localScale.x, rb.transform.position.y);
     }
     #endregion
 

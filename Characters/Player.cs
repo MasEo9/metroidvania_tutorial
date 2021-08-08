@@ -6,6 +6,8 @@ public class Player : Character
 {
     private float runSpeed = 2.0f;
     private float walkSpeed = 1.0f;
+    private float teleDistStart;
+    private float teleDistEnd;
 
 
 
@@ -65,7 +67,12 @@ public class Player : Character
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            teleDistance = 2.0f;
+            teleDistStart = Time.time;
+        }
+        if(Input.GetButtonUp("Fire1"))
+        {
+            teleDistance = (Time.time - teleDistStart)*10;
+            Debug.Log(teleDistance);
             Teleport();
         }
     }
