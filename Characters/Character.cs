@@ -21,16 +21,14 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected float radOCircle;
     [SerializeField] protected LayerMask whatIsGround;
     [SerializeField] protected bool grounded;
-    [SerializeField] protected float teleDistance;
+    protected float teleDistance;
     protected float jumpTimeCounter;
     protected bool stoppedJumping;
-    protected float maxTeleDistance;
     protected bool stoppedTele;
 
     //[Header("Attack Variables")]
 
     //[Header("Character Stats")]
-
     protected Rigidbody2D rb;
     protected Animator myAnimator;
     #region monos
@@ -39,7 +37,6 @@ public abstract class Character : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         jumpTimeCounter = jumpTime;
-        maxTeleDistance = teleDistance;
     }
     public virtual void Update()
     {
